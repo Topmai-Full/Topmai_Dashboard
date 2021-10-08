@@ -1,0 +1,33 @@
+<sidenav [orientation]="orientation" [ngClass]="getClasses()">
+  <div class="sidenav-inner" [ngClass]="{ 'py-1': orientation !== 'horizontal' }">
+    <!-- <img src="../../../assets/img/logo.png" id="sidebar_logo" alt=""> -->
+    <h4 style="margin: 20px auto; color: white;">Topmai</h4>
+    <sidenav-router-link icon="ion ion-md-home" route="/dashboard" [active]="isActive('/dashboard')">Dashboard
+    </sidenav-router-link>
+
+    <sidenav-menu icon="ion ion-md-menu" text="Products" [active]="isMenuActive('/products')"
+      [open]="isMenuOpen('/products')">
+      <sidenav-router-link route="/products" [active]="isActive('/products')">All products
+      </sidenav-router-link>
+    </sidenav-menu>
+
+    <sidenav-menu icon="ion ion-md-menu" text="Categories" [active]="isMenuActive('/category')"
+      [open]="isMenuOpen('/category')">
+      <sidenav-router-link route="/category" [active]="isActive('/category')">All categories
+      </sidenav-router-link>
+    </sidenav-menu>
+
+    <sidenav-menu icon="ion ion-md-menu" text="Orders" [active]="isMenuActive('/all-orders')"
+      [open]="isMenuOpen('/all-orders')">
+      <sidenav-router-link route="/all-orders" [active]="isActive('/all-orders')">All Orders
+      </sidenav-router-link>
+    </sidenav-menu>
+
+    <sidenav-router-link icon="ion ion-md-menu" route="/contact-us" [active]="isActive('/contact-us')">Contact Us
+    </sidenav-router-link>
+
+
+
+
+  </div>
+</sidenav>

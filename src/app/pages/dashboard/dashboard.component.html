@@ -1,0 +1,89 @@
+<h4 class="media align-items-center font-weight-bold py-3 mb-4">
+  <div class="media-body ml-3">
+    Welcome back, {{userData?.name}}!
+    <div class="text-muted text-tiny mt-1"><small class="font-weight-normal">Today is {{date | date:
+        'fullDate'}}</small>
+    </div>
+  </div>
+</h4>
+
+<hr class="container-m--x mt-0 mb-4">
+
+<div class="row">
+  <div class="d-flex col-xl-6 align-items-stretch">
+
+    <!-- Stats + Links -->
+    <div class="card d-flex w-100 mb-4">
+      <div class="row no-gutters row-bordered row-border-light h-100">
+        <div class="d-flex col-sm-6 col-md-4 col-lg-6 align-items-center">
+
+          <a href="javascript:void(0)" class="card-body media align-items-center text-dark">
+            <i class="lnr lnr-chart-bars display-4 d-block text-primary"></i>
+            <span class="media-body d-block ml-3">
+              <span class="text-big font-weight-bolder">$1,342.11</span><br>
+              <small class="text-muted">Earned this month</small>
+            </span>
+          </a>
+
+        </div>
+        <div class="d-flex col-sm-6 col-md-4 col-lg-6 align-items-center">
+
+          <a href="javascript:void(0)" class="card-body media align-items-center text-dark">
+            <i class="lnr lnr-hourglass display-4 d-block text-primary"></i>
+            <span class="media-body d-block ml-3">
+              <span class="text-big"><span class="font-weight-bolder">152</span> Working Hours</span><br>
+              <small class="text-muted">Spent this month</small>
+            </span>
+          </a>
+
+        </div>
+        <div class="d-flex col-sm-6 col-md-4 col-lg-6 align-items-center">
+
+          <a href="javascript:void(0)" class="card-body media align-items-center text-dark">
+            <i class="lnr lnr-checkmark-circle display-4 d-block text-primary"></i>
+            <span class="media-body d-block ml-3">
+              <span class="text-big"><span class="font-weight-bolder">54</span> Tasks</span><br>
+              <small class="text-muted">Completed this month</small>
+            </span>
+          </a>
+
+        </div>
+        <div class="d-flex col-sm-6 col-md-4 col-lg-6 align-items-center">
+
+          <a href="javascript:void(0)" class="card-body media align-items-center text-dark">
+            <i class="lnr lnr-license display-4 d-block text-primary"></i>
+            <span class="media-body d-block ml-3">
+              <span class="text-big"><span class="font-weight-bolder">6</span> Projects</span><br>
+              <small class="text-muted">Done this month</small>
+            </span>
+          </a>
+
+        </div>
+      </div>
+    </div>
+    <!-- / Stats + Links -->
+
+  </div>
+  <div class="d-flex col-xl-6 align-items-stretch">
+
+    <!-- Daily progress chart -->
+    <div class="card w-100 mb-4">
+      <div class="card-body">
+        <button type="button" class="btn btn-sm btn-outline-primary icon-btn float-right"><i
+            class="ion ion-md-sync"></i></button>
+        <div class="text-muted small">Working hours</div>
+        <div class="text-big">Daily Progress</div>
+      </div>
+      <div class="px-2 mt-4">
+        <div class="w-100" style="height: 120px">
+          <canvas baseChart height="120" [datasets]="chart1Data"
+            [labels]="['', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '']"
+            [options]="chart1Options" [chartType]="'bar'" [colors]="chart1Colors">
+          </canvas>
+        </div>
+      </div>
+    </div>
+    <!-- / Daily progress chart -->
+
+  </div>
+</div>

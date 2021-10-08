@@ -1,0 +1,32 @@
+<h4 class="font-weight-bold py-3 mb-4">
+  <span class="text-muted font-weight-light">Category /</span>
+  <span *ngIf="action">Add New</span>
+  <span *ngIf="!action">Update</span>
+</h4>
+
+<div class="card mb-4">
+  <h6 class="card-header">
+    Default
+  </h6>
+  <div class="card-body">
+    <form>
+      <div class="form-group">
+        <label class="form-label">Name</label>
+        <input type="text" class="form-control" placeholder="Name" name="name" [(ngModel)]="formObj.name">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Cover Photo</label>
+        <input type="file" class="form-control" (change)="upload($event)">
+      </div>
+      <div class="form-group">
+        <label class="dscr">Description</label>
+        <textarea name="desc" id="dscr" class="form-control" [(ngModel)]="formObj.description"></textarea>
+      </div>
+      <div class="form-group">
+        <img src="{{baseUrl}}/{{formObj.image}}" id="productImage" title="{{formObj.name}}" alt="">
+      </div>
+      <button type="submit" class="btn btn-default" (click)="create()" *ngIf="action">Submit</button>
+      <button type="submit" class="btn btn-default" (click)="Update()" *ngIf="!action">Submit</button>
+    </form>
+  </div>
+</div>
