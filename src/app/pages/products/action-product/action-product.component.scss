@@ -7,3 +7,69 @@
 #require {
   color: red !important;
 }
+
+
+#uploadProduct_p a {
+  color: #2196f3;
+}
+
+.image-upload>input {
+  display: none;
+}
+
+#prodCover {
+  width: 95px;
+  height: 93px;
+  background: #F4F4F4;
+  border-radius: 5px;
+  float: left;
+}
+
+#prodCover .UploadIcon {
+  line-height: 95px;
+  text-align: center;
+  display: block;
+  font-size: 20px;
+  color: #b5b3b3;
+  cursor: pointer;
+}
+
+#prodCover #choosepicLabel {
+  margin: 0px auto !important;
+  display: block;
+}
+
+#prodCover #recomended {
+  font-size: 13px;
+  text-align: center;
+  color: #4A4A4A;
+  margin: 18px 0px;
+}
+
+.displayUploadedimages {
+  position: relative;
+  top: -22px;
+}
+
+.displayUploadedimages .outerBox {
+  width: 88px;
+  height: 93px;
+  margin: 0px 5px;
+  position: relative;
+  height: 88px;
+  float: left;
+}
+
+.displayUploadedimages .images {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+#remove {
+  position: relative;
+  top: 20px;
+  color: #ffffff;
+  left: 3px;
+  cursor: pointer;
+}

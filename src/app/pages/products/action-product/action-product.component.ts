@@ -17,13 +17,20 @@ export class ActionProductComponent implements OnInit {
 
   action = false;
   categories: any;
+  subCategories: any;
   baseUrl = environment.baseurl;
   user = JSON.parse(localStorage.getItem('user'));
+  multiImages = [];
+
   formObj = {
     id: '',
-    name: '',
-    image: '',
+    title: '',
+    subtitle: '',
+    image: [],
     description: '',
+    price: '',
+    oldprice: '',
+    parentcategory: null,
     category: null,
     user: this.user._id
   }
@@ -42,37 +49,55 @@ export class ActionProductComponent implements OnInit {
     this.appService.pageTitle = 'Product';
   }
   ngOnInit() {
+    this.formObj.id = this._route.snapshot.params['id'];
     this.categorySrv.getAll().subscribe((resp: any) => {
       this.categories = resp.data;
-    })
+      this.categorySrv.getAllSub(resp.data[0]._id).subscribe((resp: any) => {
+        this.subCategories = resp.data;
 
-    this.formObj.id = this._route.snapshot.params['id'];
-    if (this.formObj.id == 'new') {
-      this.action = true;
-    } else {
-      this.action = false;
-      this.prodSrv.getById(this.formObj.id).subscribe((resp: any) => {
-        console.log(resp);
-        this.formObj.category = resp.data.category;
-        this.formObj.name = resp.data.name;
-        this.formObj.image = resp.data.image;
-        this.formObj.description = resp.data.description;
+        if (this.formObj.id == 'new') {
+          this.action = true;
+        } else {
+          this.action = false;
+          this.prodSrv.getById(this.formObj.id).subscribe((resp: any) => {
+            console.log(resp)
+            this.formObj.oldprice = resp.data.oldprice;
+            this.formObj.price = resp.data.price;
+            this.formObj.category = resp.data.category;
+            this.formObj.parentcategory = resp.data.parentcategory;
+            this.formObj.title = resp.data.title;
+            this.formObj.subtitle = resp.data.subtitle;
+            this.multiImages = resp.data.image;
+            this.formObj.description = resp.data.description;
+            console.log(this.formObj)
+          })
+        }
+
       })
-    }
+    })
+  }
+
+  changeCat(val) {
+    this.categorySrv.getAllSub(val).subscribe((resp: any) => {
+      this.subCategories = resp.data;
+    })
   }
 
   upload(event) {
     var file = event.target.files[0];
+    var inc = 0;
     this.uploadSrv.saveimage(file).subscribe((data: any) => {
-      this.formObj.image = data;
+      var incid = inc++;
+      this.multiImages.push({ id: incid, image: data });
     });
   }
 
   create() {
-    console.log(this.formObj);
+    this.formObj.image = this.multiImages;
     if (
-      this.formObj.name === '' ||
-      this.formObj.image === '' ||
+      this.formObj.price === '' ||
+      this.formObj.title === '' ||
+      this.formObj.image.length < 1 ||
       this.formObj.category === null
     ) {
       this.toast.error('Credentials is not correct', 'Oops', {
@@ -83,7 +108,6 @@ export class ActionProductComponent implements OnInit {
       });
     } else {
       this.prodSrv.create(this.formObj).subscribe((resp: any) => {
-        console.log(resp);
         if (resp.message === 'success') {
           this.toast.success('Product Added', 'Success', {
             timeOut: 3000,
@@ -107,8 +131,12 @@ export class ActionProductComponent implements OnInit {
   }
 
   Update() {
+    this.formObj.image = this.multiImages;
     if (
-      this.formObj.name === ''
+      this.formObj.title === '' ||
+      this.formObj.price === '' ||
+      this.formObj.image.length < 1 ||
+      this.formObj.category === null
     ) {
       this.toast.error('Credentials is not correct', 'Oops', {
         timeOut: 2000,
@@ -118,7 +146,6 @@ export class ActionProductComponent implements OnInit {
       });
     } else {
       this.prodSrv.update(this.formObj).subscribe((resp: any) => {
-        console.log(resp);
         if (resp.message === 'success') {
           this.toast.success('Product Update', 'Success', {
             timeOut: 3000,
@@ -144,5 +171,10 @@ export class ActionProductComponent implements OnInit {
   backToBack() {
     this.location.back();
   }
+
+  imgRemove(index) {
+    this.multiImages.splice(index, 1);
+  }
+
 
 }

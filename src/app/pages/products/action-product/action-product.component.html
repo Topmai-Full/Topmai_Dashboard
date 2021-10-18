@@ -4,28 +4,80 @@
   <span *ngIf="!action">Update</span>
 </h4>
 
-<div class="card mb-4">
-  <h6 class="card-header">
-    Default
-  </h6>
+<div class="card my-4">
   <div class="card-body">
     <form class="row">
-      <div class="form-group col-md-12">
-        <label class="form-label">Name <span id="require">*</span></label>
-        <input type="text" class="form-control" placeholder="Name" name="name" [(ngModel)]="formObj.name">
+      <div class="form-group col-md-6">
+        <label class="form-label">Title <span id="require">*</span></label>
+        <input type="text" class="form-control" placeholder="Title" name="Title" [(ngModel)]="formObj.title">
       </div>
       <div class="form-group col-md-6">
-        <label class="form-label">Cover Photo <span id="require">*</span> </label>
-        <input type="file" class="form-control" (change)="upload($event)">
+        <label class="form-label">Sub title <span id="require">*</span></label>
+        <input type="text" class="form-control" placeholder="Subtitle" name="Subtitle" [(ngModel)]="formObj.subtitle">
       </div>
+      <div class="form-group col-md-6">
+        <label class="form-label">Price <span id="require">*</span></label>
+        <input type="text" class="form-control" placeholder="Price" name="Price" [(ngModel)]="formObj.price">
+      </div>
+      <div class="form-group col-md-6">
+        <label class="form-label">Old Price <span id="require">*</span></label>
+        <input type="text" class="form-control" placeholder="oldprice" name="oldprice" [(ngModel)]="formObj.oldprice">
+      </div>
+
+      <div class="form-group col-md-12 p-0">
+        <label class="form-label">Cover Photo <span id="require">*</span> </label>
+        <!-- <input type="file" class="form-control" (change)="upload($event)"> -->
+        <div class=" form-group col-12 col-md-12">
+          <label for="picChoose" style="width: 100%;padding: 5px 0px;"> <b>Icon</b> - add images or embed audio/video.
+            Up to 6 items. <span class="require">*</span></label>
+
+          <div class="displayUploadedimages" *ngIf="multiImages.length >= 1">
+            <div *ngFor="let imgs of multiImages;index as i" class="outerBox">
+              <i class="fa fa-times" aria-hidden="true" id="remove" (click)="imgRemove(i)"></i>
+              <img src="{{baseUrl}}/{{imgs.image}}" alt="" class="images">
+            </div>
+          </div>
+
+          <div id="prodCover">
+            <div *ngIf="multiImages.length < 6">
+              <div class="image-upload">
+                <label for="file-input" id="choosepicLabel">
+                  <i class="fa fa-plus UploadIcon" aria-hidden="true"></i>
+                </label>
+                <input id="file-input" type="file" [disabled]="multiImages.length >= 6" (change)="upload($event)" />
+              </div>
+            </div>
+          </div>
+          <div class="row" style="width: 100%;">
+            <div class="col-md-12">
+              <p id="recomended">Upload Best Quality Iamges</p> <span *ngIf="multiImages.length >= 6">You Upload maximum 6
+                Images.</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+
       <div class="form-group col-md-6">
         <label for="category" class="form-label">Category <span id="require">*</span> </label>
-        <select name="cat" id="category" class="form-control" [(ngModel)]="formObj.category">
+        <select name="cat" id="category" class="form-control" (change)="changeCat($event.target.value)"
+          [(ngModel)]="formObj.parentcategory">
           <option *ngFor="let item of categories;index as i" value="{{item['_id']}}">
             {{item['name']}}
           </option>
         </select>
       </div>
+
+      <div class="form-group col-md-6">
+        <label for="category" class="form-label">Sub Category <span id="require">*</span> </label>
+        <select name="cat" id="category" class="form-control" [(ngModel)]="formObj.category">
+          <option *ngFor="let item of subCategories;index as i" value="{{item['_id']}}">
+            {{item['name']}}
+          </option>
+        </select>
+      </div>
+
       <div class="form-group col-md-12">
         <label class="dscr">Description</label>
         <textarea name="desc" id="dscr" class="form-control" [(ngModel)]="formObj.description"></textarea>
@@ -33,10 +85,6 @@
 
       <button type="submit" class="btn btn-default" (click)="create()" *ngIf="action">Submit</button>
       <button type="submit" class="btn btn-default" (click)="Update()" *ngIf="!action">Submit</button>
-
-      <div class="form-group col-md-12">
-        <img src="{{baseUrl}}/{{formObj.image}}" id="productImage" title="{{formObj.name}}" alt="">
-      </div>
 
     </form>
   </div>

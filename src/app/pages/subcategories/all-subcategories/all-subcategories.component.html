@@ -1,11 +1,11 @@
 <div class="row">
   <div class="col-md-6 col-12">
     <h4 class="font-weight-bold py-3 mb-4">
-      <span class="text-muted font-weight-light">All /</span> Categories
+      <span class="text-muted font-weight-light"> {{mainCategory?.name}} > </span> SubCategories
     </h4>
   </div>
   <div class="col-md-6 text-right">
-    <button class="btn btn-primary" routerLink="/category/main/new"> Add More </button>
+    <button class="btn btn-primary" routerLink="/category/sub/{{mainCategory?._id}}"> Add More </button>
   </div>
 </div>
 
@@ -22,28 +22,27 @@
 
     <!-- Within card -->
     <div class="card">
-      <div class="row" *ngIf="categories?.length <= 0">
+      <div class="row" *ngIf="Subcategories?.length <= 0">
         <div class="col-md-12 text-center">
           <h6 class="card-header">
             No Data Available
           </h6>
         </div>
       </div>
-      <!-- <h6 class="card-header" *ngIf="categories?.length >= 1">
+      <!-- <h6 class="card-header" *ngIf="Subcategories?.length >= 1">
         All
       </h6> -->
-      <div class="card-ngx-datatable table-responsive" *ngIf="categories?.length >= 1">
+      <div class="card-ngx-datatable table-responsive" *ngIf="Subcategories?.length >= 1">
         <div class="table-responsive">
           <table class="table">
             <tr>
               <th>#</th>
               <th>Name</th>
               <th>Cover Photo</th>
-              <th>Sub categories</th>
               <th>created At</th>
               <th>Action</th>
             </tr>
-            <tr *ngFor="let item of categories | filter : searchText;index as i">
+            <tr *ngFor="let item of Subcategories | filter : searchText;index as i">
               <td>{{i+1}}</td>
               <td>{{item?.name}}</td>
               <td>
@@ -51,7 +50,6 @@
                 <img src="https://vendy.s3.me-south-1.amazonaws.com/sample-logo.png" *ngIf="item?.image == ''"
                   id="prodImage" alt="">
               </td>
-              <td><i class="fa fa-bars" aria-hidden="true" routerLink="/subcatgeries/{{item?._id}}"></i></td>
               <td>{{item?.createdAt | date:'mediumDate'}}</td>
               <td>
                 <i class="fa fa-pencil" aria-hidden="true" routerLink="/category/upd/{{item?._id}}"></i>

@@ -37,16 +37,25 @@
           <table class="table">
             <tr>
               <th>#</th>
-              <th>Name</th>
-              <th>Cover Photo</th>
+              <th>Prouct Title</th>
+              <th>Product Price</th>
+              <th>Product Photo</th>
               <th>Category</th>
               <th>created At</th>
               <th>Action</th>
             </tr>
             <tr *ngFor="let item of products | filter : searchText;index as i">
               <td>{{i+1}}</td>
-              <td>{{item?.name}}</td>
-              <td><img src="{{baseUrl}}/{{item?.image}}" id="prodImage" alt=""></td>
+              <td>
+                <span *ngIf="item?.title?.length > 20 ">
+                  {{item?.title.substr(0,20)}} ...
+                </span>
+                <span *ngIf="item?.title?.length < 20 ">
+                  {{item?.title}}
+                </span>
+              </td>
+              <td>{{item?.price}}</td>
+              <td><img src="{{baseUrl}}/{{item?.image[0].image}}" id="prodImage" alt=""></td>
               <td>{{item?.category?.name}}</td>
               <td>{{item?.createdAt | date:'mediumDate'}}</td>
               <td>

@@ -52,6 +52,7 @@ import { ActionProductComponent } from './pages/products/action-product/action-p
 import { AllProductsComponent } from './pages/products/all-products/all-products.component';
 import { UpdateProfileComponent } from './pages/profile/update-profile/update-profile.component';
 import { AllOrdersComponent } from './pages/orders/all-orders/all-orders.component';
+import { AllSubcategoriesComponent } from './pages/subcategories/all-subcategories/all-subcategories.component';
 
 // *******************************************************************************
 //
@@ -72,6 +73,7 @@ import { AllOrdersComponent } from './pages/orders/all-orders/all-orders.compone
     ContactUsComponent,
     UpdateProfileComponent,
     AllOrdersComponent,
+    AllSubcategoriesComponent,
   ],
 
   imports: [

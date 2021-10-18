@@ -6,30 +6,39 @@ import { environment } from '../../../../environments/environment';
 import { AppService } from '../../../app.service';
 import { ProductService } from '../../../services/product.service';
 import swal from 'sweetalert'
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
-  selector: 'app-all-categories',
-  templateUrl: './all-categories.component.html',
-  styleUrls: ['./all-categories.component.scss']
+  selector: 'app-all-subcategories',
+  templateUrl: './all-subcategories.component.html',
+  styleUrls: ['./all-subcategories.component.scss']
 })
-export class AllCategoriesComponent implements OnInit {
+export class AllSubcategoriesComponent implements OnInit {
 
-  categories: any;
+
+  Subcategories: any;
+  mainCategory: any;
   searchText = '';
   baseUrl = environment.baseurl;
-
+  routerId: any;
   constructor(
     private appService: AppService,
     private categorySrv: CategoryService,
     private modalService: NgbModal,
-    private toast: ToastrService
+    private toast: ToastrService,
+    private _route: ActivatedRoute
   ) {
-    this.appService.pageTitle = 'All Categories';
+    this.appService.pageTitle = 'All Sub Categories';
   }
 
   ngOnInit() {
-    this.categorySrv.getAll().subscribe((resp: any) => {
-      this.categories = resp.data;
+    this.routerId = this._route.snapshot.params['id'];
+    this.categorySrv.getById(this.routerId).subscribe((resp: any) => {
+      this.mainCategory = resp.data;
+    })
+
+    this.categorySrv.getAllSub(this.routerId).subscribe((resp: any) => {
+      this.Subcategories = resp.data;
     })
   }
 
@@ -51,21 +60,12 @@ export class AllCategoriesComponent implements OnInit {
     }).then((value) => {
       if (value === 'yes') {
         this.categorySrv.delete(id).subscribe((resp: any) => {
-          console.log(resp)
           if (resp.message == 'success') {
-            this.categorySrv.getAll().subscribe((resp: any) => {
-              this.categories = resp.data;
+            this.categorySrv.getAllSub(this.routerId).subscribe((resp: any) => {
+              this.Subcategories = resp.data;
             })
             this.toast.success('Deleted successfully', '', {
               timeOut: 2000,
-              positionClass: 'toast-top-right',
-              progressBar: true,
-              progressAnimation: 'increasing',
-            })
-            swal.close()
-          } else if (resp.message == 'categories exist against category') {
-            this.toast.error('Sub categories exist against this category', '', {
-              timeOut: 3000,
               positionClass: 'toast-top-right',
               progressBar: true,
               progressAnimation: 'increasing',

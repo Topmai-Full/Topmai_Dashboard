@@ -1,5 +1,6 @@
 <h4 class="font-weight-bold py-3 mb-4">
-  <span class="text-muted font-weight-light">Category /</span>
+  <span class="text-muted font-weight-light" *ngIf="!subacat">Category /</span>
+  <span class="text-muted font-weight-light" *ngIf="subacat">{{mainCategory?.name}} > Category /</span>
   <span *ngIf="action">Add New</span>
   <span *ngIf="!action">Update</span>
 </h4>

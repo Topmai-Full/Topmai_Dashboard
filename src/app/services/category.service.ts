@@ -23,6 +23,10 @@ export class CategoryService {
     return this.http.get(this.baseUrl + 'getAll');
   }
 
+  getAllSub(id) {
+    return this.http.get(this.baseUrl + 'getAllSub/'+id);
+  }
+
   delete(id) {
     return this.http.delete(this.baseUrl + 'delete/' + id);
   }

@@ -15,13 +15,16 @@ import { CategoryService } from '../../../services/category.service';
 })
 export class ActionCategoryComponent implements OnInit {
   action = false;
+  subacat = false;
   baseUrl = environment.baseurl;
   user = JSON.parse(localStorage.getItem('user'));
+  mainCategory: any;
   formObj = {
     id: '',
     name: '',
     image: '',
     description: '',
+    parent: null,
     user: this.user._id
   }
 
@@ -38,15 +41,26 @@ export class ActionCategoryComponent implements OnInit {
     this.appService.pageTitle = 'Category';
   }
   ngOnInit() {
-    this.formObj.id = this._route.snapshot.params['id'];
-    if (this.formObj.id == 'new') {
+    let main = this._route.snapshot.params['main'];
+    let id = this._route.snapshot.params['id'];
+    if (main == 'main' && id == 'new') {
       this.action = true;
-    } else {
+      this.formObj.parent = null;
+    } else if (main == 'sub' && id != 'new') {
+      this.subacat = true;
+      this.action = true;
+      this.catSrv.getById(id).subscribe((resp: any) => {
+        this.mainCategory = resp.data;
+      })
+      this.formObj.parent = id;
+    } else if (main == 'upd' && id != 'new') {
       this.action = false;
+      this.subacat = false;
+      this.formObj.id = id;
       this.catSrv.getById(this.formObj.id).subscribe((resp: any) => {
-        console.log(resp);
         this.formObj.name = resp.data.name;
         this.formObj.image = resp.data.image;
+        this.formObj.parent = resp.data.parent;
         this.formObj.description = resp.data.description;
       })
     }
@@ -60,11 +74,11 @@ export class ActionCategoryComponent implements OnInit {
   }
 
   create() {
-    console.log(this.formObj);
-
+    // console.log(this.formObj);
+    // return;
     if (
-      this.formObj.name === '' ||
-      this.formObj.image === ''
+      this.formObj.name === ''
+      // this.formObj.image === ''
     ) {
       this.toast.error('Credentials is not correct', 'Message', {
         timeOut: 2000,
@@ -98,6 +112,9 @@ export class ActionCategoryComponent implements OnInit {
   }
 
   Update() {
+    // console.log(this.formObj);
+    // return;
+
     if (
       this.formObj.name === ''
     ) {
