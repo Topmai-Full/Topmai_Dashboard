@@ -73,3 +73,31 @@
   left: 3px;
   cursor: pointer;
 }
+
+.option_tag {
+  min-width: 80px !important;
+  height: 25px;
+  border-radius: 15px;
+  text-align: center;
+  color: white;
+  font-size: 15px;
+  float: left;
+  background: #512d6d;
+  padding: 1px 10px;
+  margin: 6px 3px 0px 0px;
+  color: white !important;
+  font-weight: 400 !important;
+  line-height: 21px;
+}
+
+.option_tag i {
+  font-size: 14px !important;
+  float: right;
+  padding: 5px 0px 0px 10px;
+  cursor: pointer !important;
+}
+
+#product_img_optional {
+  width: 40px;
+  margin: 0px;
+}

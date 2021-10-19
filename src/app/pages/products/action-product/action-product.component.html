@@ -24,7 +24,7 @@
         <input type="text" class="form-control" placeholder="oldprice" name="oldprice" [(ngModel)]="formObj.oldprice">
       </div>
 
-      <div class="form-group col-md-12 p-0">
+      <div class="form-group col-md-12">
         <label class="form-label">Cover Photo <span id="require">*</span> </label>
         <!-- <input type="file" class="form-control" (change)="upload($event)"> -->
         <div class=" form-group col-12 col-md-12">
@@ -50,7 +50,8 @@
           </div>
           <div class="row" style="width: 100%;">
             <div class="col-md-12">
-              <p id="recomended">Upload Best Quality Iamges</p> <span *ngIf="multiImages.length >= 6">You Upload maximum 6
+              <p id="recomended">Upload Best Quality Iamges</p> <span *ngIf="multiImages.length >= 6">You Upload maximum
+                6
                 Images.</span>
             </div>
           </div>
@@ -78,10 +79,147 @@
         </select>
       </div>
 
+
       <div class="form-group col-md-12">
         <label class="dscr">Description</label>
         <textarea name="desc" id="dscr" class="form-control" [(ngModel)]="formObj.description"></textarea>
       </div>
+
+      <div class=" col-12 col-md-12">
+        <div class="input-checkbox checkBox">
+          <input type="checkbox" class="input product-unlimited-quantity" name="variations211"
+            [(ngModel)]="formObj.variations" id="variations211" />
+          <label for="variations211"></label>
+        </div>
+        <label for="variations211">
+          <span>
+            This product has different variations (eg size, color, type)
+          </span>
+        </label>
+      </div>
+
+      <div class="col-md-12" *ngIf="formObj?.variations">
+        <!-- when variants is empty -->
+        <div class="row" style="width: 100%;" *ngIf="cominations?.length <= 0">
+          <div class="col-12 col-md-12 my-2">
+            <h3>Add Options to create variants</h3>
+            <p id="label_add_options">In Variants You can set up prices, quantity and other settings
+            </p>
+          </div>
+        </div>
+
+        <div *ngFor="let items of prodOptions;index as i" class="row my-2" style="width: 100%;">
+
+          <div class="col-12 col-md-4">
+            <label for="opt">Enter different options.</label>
+            <input type="text" class="form-control" (blur)="onBlurMethod(i)" name="title{{i}}"
+              [(ngModel)]="items.values">
+          </div>
+
+          <div class="col-12 col-md-8">
+            <label for="vall">values</label>
+            <div class="input-group">
+              <input type="text" class="form-control" id="optValue"
+                (keyup)="onenter($event.target.value , i , $event.target)">
+              <div class="input-group-append">
+                <span class="input-group-text"><i class="fa fa-trash-o" aria-hidden="true"
+                    (click)="removeField(i)"></i></span>
+              </div>
+            </div>
+
+            <p class="option_tag" *ngFor="let item of items.options;index as j">{{item}} <i class="fa fa-trash-o"
+                aria-hidden="true" (click)="removeTags(i,j)"></i> </p>
+          </div>
+
+        </div>
+
+        <div class="col-12 col-md-12 my-3 p-0">
+          <button class="btn btn--primary-1 type--uppercase" type="submit" (click)="addanother()">
+            Add another option
+          </button>
+        </div>
+
+        <!-- when variants is available -->
+        <div class="row" style="width: 100%;" *ngIf="cominations?.length >= 1">
+          <div class="col-12 col-md-6">
+            <div class="table-responsive-lg">
+              <table class="table" style="width: 100%;">
+                <tr>
+                  <th>
+                    <div class="input-checkbox">
+                      <input type="checkbox" class="input product-unlimited-quantity" [(ngModel)]="allSelected"
+                        name="allSelected" id="input_checkbox" (change)="selectAll()" (click)="singleSelect()"
+                        id="{{1}}" />
+                      <label for="{{1}}" data-toggle="tooltip" title="" data-bs-original-title="" aria-label=""></label>
+                    </div>
+                  </th>
+                  <th>variant</th>
+                  <th>Price</th>
+                  <th>Quantity</th>
+                </tr>
+                <tr *ngFor="let items of cominations;index as a">
+                  <td>
+
+                    <div class="input-checkbox">
+                      <input type="checkbox" class="input product-unlimited-quantity" [(ngModel)]="items.selected"
+                        name="{{a+1}}" (click)="singleSelect(a)" id="{{a+1}}" />
+                      <label for="{{a+1}}" data-toggle="tooltip" title="" data-bs-original-title=""
+                        aria-label=""></label>
+                    </div>
+
+                  <td>
+                    <img src="{{baseUrl}}/{{multiImages[0]?.image}}" *ngIf="items?.picture && !items.picture" alt=""
+                      id="product_img_optional">
+                    <img src="https://vendy.s3.me-south-1.amazonaws.com/sample-logo.png"
+                      *ngIf="!items?.picture && !items.picture" alt="" id="product_img_optional">
+                    <img src="{{baseUrl}}/{{items?.picture}}" *ngIf="items.picture" alt="" id="product_img_optional">
+                    <span *ngFor="let d of items.data;index as di">
+                      <span class="pl-2 pr-2" id="opt_Dynamic">{{d}}</span>
+                      <i *ngIf="di != items.data.length - 1" class="fa fa-circle" style="font-size: 5px !important;"
+                        aria-hidden="true"></i>
+                    </span>
+                  </td>
+                  <td> <span *ngIf="items?.price == ''">0</span> <span *ngIf="items?.price != ''">
+                      {{items?.price}}</span> </td>
+                  <td> <span *ngIf="items?.quantity == ''">0</span> <span
+                      *ngIf="items?.quantity != ''"> {{items?.quantity}}</span> </td>
+                </tr>
+              </table>
+            </div>
+          </div>
+          <div class="col-12 col-md-6">
+            <div *ngIf="!isSelected" class="text-center">
+              <h5 id="add_options">Select Variants to set them up</h5>
+              <p id="label_add_options">In variants you can set up prices quantity and other settings
+              </p>
+            </div>
+
+            <div *ngIf="isSelected">
+              <form class="pr-3 pl-3 mt-3">
+                <h4 class="ml-2 mb-3"> {{seleted_Obj?.length}}Variants Selected</h4>
+                <div class="col-12 col-md-12">
+                  <label for="rs">Price</label>
+                  <input type="number" id="rs" class="form-control" name="price1" [(ngModel)]="ObjForm.price">
+                </div>
+                <div class="col-12 col-md-12">
+                  <label for="qty">Qunatity</label>
+                  <input type="number" id="qty" class="form-control" name="qty1" [(ngModel)]="ObjForm.quantity">
+                </div>
+                <div class="col-12 col-md-12">
+                  <label for="imgforoptions">Choose icon</label>
+                  <input type="file" id="imgforoptions" class="form-control" (change)="image_options($event)">
+                </div>
+                <div class="col-12 col-md-12 my-3">
+                  <button class="btn btn--primary-1 type--uppercase" type="submit" (click)="updateSelected()">
+                    Update
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+
 
       <button type="submit" class="btn btn-default" (click)="create()" *ngIf="action">Submit</button>
       <button type="submit" class="btn btn-default" (click)="Update()" *ngIf="!action">Submit</button>
