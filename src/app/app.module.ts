@@ -53,6 +53,7 @@ import { AllProductsComponent } from './pages/products/all-products/all-products
 import { UpdateProfileComponent } from './pages/profile/update-profile/update-profile.component';
 import { AllOrdersComponent } from './pages/orders/all-orders/all-orders.component';
 import { AllSubcategoriesComponent } from './pages/subcategories/all-subcategories/all-subcategories.component';
+import { OrderService } from './services/order.service';
 
 // *******************************************************************************
 //
@@ -112,6 +113,7 @@ import { AllSubcategoriesComponent } from './pages/subcategories/all-subcategori
     InterceptorService,
     CategoryService,
     ContactUsService,
+    OrderService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: InterceptorService,

@@ -1,0 +1,215 @@
+.payment_pending,
+.awaiting_processing,
+.processing,
+.shipped,
+.placed,
+.delivered,
+.ready_for_pickup,
+.failed,
+.cancelled,
+.returned,
+.will_not_deliver,
+.abandoned,
+.refunded,
+.disputed,
+.not_applicable {
+  padding: 2px 10px;
+  border-radius: 5px;
+  white-space: nowrap;
+}
+
+.payment_pending,
+.awaiting_processing,
+.processing {
+  background-color: #f3f3f3;
+  color: #666;
+}
+
+.processing {
+  background-color: #fdfdc7;
+  color: #b8860b;
+}
+
+.shipped,
+.ready_for_pickup {
+  background-color: #f5faff;
+  color: #436588;
+}
+
+.placed,
+.delivered,
+.returned {
+  background-color: #cbf4c9;
+  color: #0e6245;
+}
+
+.failed,
+.cancelled,
+.will_not_deliver,
+.abandoned,
+.refunded,
+.disputed,
+.not_applicable {
+  background-color: #fde2dd;
+  color: #a41c4e;
+}
+
+.payment_pending:before,
+.awaiting_processing:before,
+.processing:before,
+.shipped:before,
+.placed:before,
+.delivered:before,
+.ready_for_pickup:before,
+.failed:before,
+.cancelled:before,
+.returned:before,
+.will_not_deliver:before,
+.abandoned:before,
+.refunded:before,
+.disputed:before,
+.not_applicable:before {
+  font-family: 'FontAwesome';
+  font-size: 1em;
+  font-weight: 900;
+  padding-right: 10px;
+}
+
+.failed:before,
+.cancelled:before,
+.will_not_deliver:before,
+.not_applicable:before {
+  content: "\f00d";
+}
+
+.payment_pending:before,
+.awaiting_processing:before,
+.processing:before {
+  content: "\f017";
+}
+
+.shipped:before {
+  content: "\f0d1";
+}
+
+.placed:before,
+.delivered:before,
+.returned:before {
+  content: "\f00c";
+}
+
+.ready_for_pickup:before {
+  content: "\f47b";
+}
+
+.disputed:before {
+  content: "\f4a5";
+}
+
+.refunded:before {
+  content: "\f3e5";
+}
+
+.abandoned:before {
+  content: "\f880";
+}
+
+#image {
+  width: 40px;
+  height: 40px;
+  border-radius: 40px;
+  object-fit: cover;
+  margin: 0px;
+}
+
+.fa-calendar-o {
+  margin: 0px 0px 0px 15px;
+  font-size: 17px;
+  color: #ffffff;
+  padding: 10px 12px;
+  background: #512d6d;
+  border-radius: 4px;
+  cursor: pointer !important;
+  height: 37px;
+}
+
+.reset {
+  margin: 0px 0px 0px 15px;
+  width: 61px;
+  font-size: 15px;
+  color: #ffffff;
+  padding: 8px 8px;
+  background: #512d6d;
+  border-radius: 4px;
+  cursor: pointer !important;
+  height: 37px;
+  display: inline;
+}
+
+
+
+.custom-day {
+  text-align: center;
+  padding: 0.185rem 0.25rem;
+  display: inline-block;
+  border-radius: 5px;
+  width: 30px;
+  height: 30px;
+  line-height: 25px;
+}
+
+.custom-day.focused {
+  background-color: #e6e6e6;
+  border-radius: 5px;
+  width: 30px;
+  height: 30px;
+  line-height: 25px;
+  outline: none !important;
+}
+
+.custom-day.range,
+.custom-day:hover {
+  background-color: #1eb7ff;
+  color: white;
+  border-radius: 5px;
+  width: 30px;
+  height: 30px;
+  line-height: 25px;
+  outline: none !important;
+}
+
+.custom-day.faded {
+  background-color: rgba(2, 117, 216, 0.5);
+  border-radius: 5px;
+  width: 30px;
+  height: 30px;
+  line-height: 25px;
+  outline: none !important;
+}
+
+.custom-day[_ngcontent-nav-c147] {
+  text-align: center;
+  padding: 0.185rem 0.25rem;
+  display: inline-block;
+  border-radius: 5px;
+  width: 30px;
+  outline: none;
+  height: 30px;
+  line-height: 25px;
+}
+
+/* Ripple effect */
+.ripple {
+  background-position: center;
+  transition: background 0.5s;
+}
+
+.ripple:hover {
+  background: #dddddd radial-gradient(circle, transparent 1%, #dddddd 1%) center/15000%;
+}
+
+.ripple:active {
+  background-color: #dddddd;
+  background-size: 100%;
+  transition: background 0s;
+}
