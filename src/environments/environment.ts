@@ -1,6 +1,7 @@
 export const environment = {
   production: false,
-  baseurl: 'http://localhost:3006',
+  // baseurl: 'http://localhost:3006',
+  baseurl: 'https://topmainodeapi.herokuapp.com',
   toolbar: {
     toolbar: [
       { name: 'document', items: ['Source'] },
