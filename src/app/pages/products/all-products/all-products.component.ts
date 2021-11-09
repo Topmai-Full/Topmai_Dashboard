@@ -30,6 +30,7 @@ export class AllProductsComponent implements OnInit {
   ngOnInit() {
     this.productSrv.getAll().subscribe((resp: any) => {
       this.products = resp.data;
+      console.log(this.products);
     })
   }
 

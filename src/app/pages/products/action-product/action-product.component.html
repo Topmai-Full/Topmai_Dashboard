@@ -71,8 +71,8 @@
       </div>
 
       <div class="form-group col-md-6">
-        <label for="category" class="form-label">Sub Category <span id="require">*</span> </label>
-        <select name="cat" id="category" class="form-control" [(ngModel)]="formObj.category">
+        <label for="subcategory" class="form-label">Sub Category <span id="require">*</span> </label>
+        <select name="subcategory" id="subcategory" class="form-control" [(ngModel)]="formObj.category">
           <option *ngFor="let item of subCategories;index as i" value="{{item['_id']}}">
             {{item['name']}}
           </option>

@@ -97,6 +97,7 @@ export class AllOrdersComponent implements OnInit {
     this.orderSrv.getallOrderProducts(this.OrderId).subscribe((data: any) => {
       this.products = data.products;
       this.singleOrder = data.ord;
+      this.OrderStatus = this.singleOrder.status;
     });
   }
 
@@ -113,9 +114,7 @@ export class AllOrdersComponent implements OnInit {
     var Obj = { status: this.OrderStatus, order: this.OrderId };
     this.orderSrv.changeOrderstatus2(Obj).subscribe((data: any) => {
       if (data.message == 'success') {
-        this.orderSrv.getAll().subscribe((resp: any) => {
-          this.allOrders = resp.orders.reverse();
-        });
+        this.get();
         this.toast.success('Order status updatede', '', {
           timeOut: 2000,
           positionClass: 'toast-bottom-left',

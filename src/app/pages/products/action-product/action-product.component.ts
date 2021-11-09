@@ -70,42 +70,47 @@ export class ActionProductComponent implements OnInit {
   }
   ngOnInit() {
     this.formObj.id = this._route.snapshot.params['id'];
-    this.categorySrv.getAll().subscribe((resp: any) => {
-      this.categories = resp.data;
-      this.categorySrv.getAllSub(resp.data[0]._id).subscribe((resp: any) => {
-        this.subCategories = resp.data;
 
-        if (this.formObj.id == 'new') {
-          this.action = true;
-        } else {
-          this.action = false;
-          this.prodSrv.getById(this.formObj.id).subscribe((resp: any) => {
-            console.log(resp)
-            this.formObj.oldprice = resp.product.oldprice;
-            this.formObj.price = resp.product.price;
-            this.formObj.category = resp.product.category;
-            this.formObj.parentcategory = resp.product.parentcategory;
-            this.formObj.title = resp.product.title;
-            this.formObj.subtitle = resp.product.subtitle;
-            this.multiImages = resp.product.image;
-            this.formObj.description = resp.product.description;
-            this.formObj.variations = resp.product.variations;
-            // console.log(this.formObj)
-
-            for (let i = 0; i < resp.options.length; i++) {
-              this.prodOptions.push({ options: [], values: '' })
-              this.prodOptions[i].values = resp.options[i].values.value;
-              for (let j = 0; j < resp.options[i].options.length; j++) {
-                this.prodOptions[i].options.push(resp.options[i].options[j].value)
-              }
-            }
-            this.cominations = resp.pvov;
-
-          })
-        }
-
+    if (this.formObj.id == 'new') {
+      this.action = true;
+      this.categorySrv.getAll().subscribe((resp: any) => {
+        this.categories = resp.data;
+        this.categorySrv.getAllSub(resp.data[0]._id).subscribe((resp: any) => {
+          this.subCategories = resp.data;
+        })
       })
-    })
+    } else {
+      this.action = false;
+      this.prodSrv.getById(this.formObj.id).subscribe((resp: any) => {
+        console.log(resp)
+        this.formObj.oldprice = resp.product.oldprice;
+        this.formObj.price = resp.product.price;
+        this.formObj.category = resp.product.category._id;
+        this.formObj.parentcategory = resp.product.parentcategory._id;
+        this.formObj.title = resp.product.title;
+        this.formObj.subtitle = resp.product.subtitle;
+        this.multiImages = resp.product.image;
+        this.formObj.description = resp.product.description;
+        this.formObj.variations = resp.product.variations;
+
+        this.categorySrv.getAll().subscribe((resp: any) => {
+          this.categories = resp.data;
+          this.categorySrv.getAllSub(this.formObj.parentcategory).subscribe((resp: any) => {
+            this.subCategories = resp.data;
+          })
+        })
+
+        for (let i = 0; i < resp.options.length; i++) {
+          this.prodOptions.push({ options: [], values: '' })
+          this.prodOptions[i].values = resp.options[i].values.value;
+          for (let j = 0; j < resp.options[i].options.length; j++) {
+            this.prodOptions[i].options.push(resp.options[i].options[j].value)
+          }
+        }
+        this.cominations = resp.pvov;
+        console.log(this.formObj);
+      })
+    }
   }
 
   // Make Combnation
@@ -235,6 +240,12 @@ export class ActionProductComponent implements OnInit {
   changeCat(val) {
     this.categorySrv.getAllSub(val).subscribe((resp: any) => {
       this.subCategories = resp.data;
+      if (this.subCategories.length > 0){
+        console.log(this.subCategories[0]._id)
+        this.formObj.category = this.subCategories[0]._id;
+      }else{
+        this.formObj.category = null;
+      }
     })
   }
 
@@ -412,14 +423,15 @@ export class ActionProductComponent implements OnInit {
   }
 
   Update() {
+    console.log(this.formObj);
+    // return;
     this.formObj.combinations = this.cominations;
     this.formObj.productoptions = this.prodOptions;
     this.formObj.image = this.multiImages;
     if (
       this.formObj.title === '' ||
       this.formObj.price === '' ||
-      this.formObj.image.length < 1 ||
-      this.formObj.category === null
+      this.formObj.image.length < 1
     ) {
       this.toast.error('Credentials is not correct', 'Oops', {
         timeOut: 2000,
