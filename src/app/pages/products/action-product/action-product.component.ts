@@ -70,22 +70,23 @@ export class ActionProductComponent implements OnInit {
   }
   ngOnInit() {
     this.formObj.id = this._route.snapshot.params['id'];
+    this.categorySrv.getAll().subscribe((resp: any) => {
+      this.categories = resp.data;
+    })
 
     if (this.formObj.id == 'new') {
       this.action = true;
-      this.categorySrv.getAll().subscribe((resp: any) => {
-        this.categories = resp.data;
-        this.categorySrv.getAllSub(resp.data[0]._id).subscribe((resp: any) => {
-          this.subCategories = resp.data;
-        })
+      this.categorySrv.getAllSub(this.categories[0]._id).subscribe((resp: any) => {
+        this.subCategories = resp.data;
       })
     } else {
       this.action = false;
       this.prodSrv.getById(this.formObj.id).subscribe((resp: any) => {
-        console.log(resp)
+        if (resp.product.category){
+          this.formObj.category = resp.product.category._id;
+        }
         this.formObj.oldprice = resp.product.oldprice;
         this.formObj.price = resp.product.price;
-        this.formObj.category = resp.product.category._id;
         this.formObj.parentcategory = resp.product.parentcategory._id;
         this.formObj.title = resp.product.title;
         this.formObj.subtitle = resp.product.subtitle;
@@ -93,11 +94,8 @@ export class ActionProductComponent implements OnInit {
         this.formObj.description = resp.product.description;
         this.formObj.variations = resp.product.variations;
 
-        this.categorySrv.getAll().subscribe((resp: any) => {
-          this.categories = resp.data;
-          this.categorySrv.getAllSub(this.formObj.parentcategory).subscribe((resp: any) => {
-            this.subCategories = resp.data;
-          })
+        this.categorySrv.getAllSub(this.formObj.parentcategory).subscribe((resp: any) => {
+          this.subCategories = resp.data;
         })
 
         for (let i = 0; i < resp.options.length; i++) {
