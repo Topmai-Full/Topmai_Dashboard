@@ -213,14 +213,8 @@
             <label for="">Change Order Status</label>
             <select class="form-control" name="status" [(ngModel)]="OrderStatus">
               <option value="Payment Pending">Payment Pending</option>
-              <option value="Not Applicable">Not Applicable</option>
-              <option value="Received">Received</option>
-              <option value="Processing">Processing</option>
               <option value="Shipped">Shipped</option>
               <option value="Delivered">Delivered</option>
-              <option value="Will Not Deliver">Will Not Deliver</option>
-              <option value="Returned">Returned</option>
-              <option value="Ready For Pickup">Ready For Pickup</option>
             </select>
           </div>
 
@@ -233,7 +227,6 @@
   </div>
   <div class="modal-footer">
     <button type="button" class="btn btn-default" (click)="c('Close click')">Close</button>
-    <button type="button" class="btn btn-primary">Save</button>
   </div>
 </ng-template>
 
