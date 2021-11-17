@@ -69,6 +69,7 @@ export class ActionCategoryComponent implements OnInit {
   upload(event) {
     var file = event.target.files[0];
     this.uploadSrv.saveimage(file).subscribe((data: any) => {
+      console.log(data);
       this.formObj.image = data;
     });
   }

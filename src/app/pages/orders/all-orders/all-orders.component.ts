@@ -31,6 +31,7 @@ export class AllOrdersComponent implements OnInit {
   OrderStatus: any;
   orderActiviti = [];
   masterOrders: any;
+  userOrder: any;
   config = {
     itemsPerPage: 10,
     currentPage: 1,
@@ -92,9 +93,11 @@ export class AllOrdersComponent implements OnInit {
   }
 
   //Get Products against order id
-  getProductsbyOrderId(id, status) {
-    this.OrderId = id;
-    this.orderSrv.getallOrderProducts(this.OrderId).subscribe((data: any) => {
+  getProductsbyOrderId(item) {
+    console.log(item);
+    this.userOrder = item.user._id;
+    this.OrderId = item._id;
+    this.orderSrv.getallOrderProducts(item._id).subscribe((data: any) => {
       this.products = data.products;
       this.singleOrder = data.ord;
       this.OrderStatus = this.singleOrder.status;
@@ -102,16 +105,18 @@ export class AllOrdersComponent implements OnInit {
   }
 
   //Get Order Activity
-  orderActivity(id) {
+  orderActivity(item) {
+    this.userOrder = item.user._id;
     this.activityLoader = true;
-    this.orderSrv.getall_OrderActivity(id).subscribe((data: any) => {
+    this.orderSrv.getall_OrderActivity(item._id).subscribe((data: any) => {
+      console.log(data);
       this.orderActiviti = data.data;
       this.activityLoader = false;
     })
   }
 
   SaveNow() {
-    var Obj = { status: this.OrderStatus, order: this.OrderId };
+    var Obj = { status: this.OrderStatus, order: this.OrderId, user: this.userOrder };
     this.orderSrv.changeOrderstatus2(Obj).subscribe((data: any) => {
       if (data.message == 'success') {
         this.get();

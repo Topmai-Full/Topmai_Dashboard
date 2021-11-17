@@ -1,139 +1,141 @@
-<div class="row">
-  <div class="col-md-12 col-12">
-    <h4 class="font-weight-bold py-3 mb-4">
-      <span class="text-muted font-weight-light">All /</span> Orders
-    </h4>
-  </div>
-</div>
-
-<hr class="border-light container-m--x mt-0 mb-4">
-
-<div class="demo-vertical-spacing">
-  <div>
-    <div class="row">
-      <div class="col-sm-6 col-md-5 col-lg-3 mb-3 ml-auto">
-        <input type="text" name="search" class="form-control" [(ngModel)]="searchText">
-      </div>
+<div *ngIf="!loader">
+  <div class="row">
+    <div class="col-md-12 col-12">
+      <h4 class="font-weight-bold py-3 mb-4">
+        <span class="text-muted font-weight-light">All /</span> Orders
+      </h4>
     </div>
+  </div>
 
+  <hr class="border-light container-m--x mt-0 mb-4">
 
-    <!-- Within card -->
-    <div class="card">
-      <div class="row" *ngIf="allOrders?.length <= 0">
-        <div class="col-md-12 text-center">
-          <h6 class="card-header">
-            No Data Available
-          </h6>
+  <div class="demo-vertical-spacing">
+    <div>
+      <div class="row">
+        <div class="col-sm-6 col-md-5 col-lg-3 mb-3 ml-auto">
+          <input type="text" name="search" class="form-control" [(ngModel)]="searchText">
         </div>
       </div>
-      <h6 class="card-header" *ngIf="allOrders?.length >= 1">
-        All
-      </h6>
-      <div class="card-ngx-datatable table-responsive" *ngIf="allOrders?.length >= 1">
-        <div class="table-responsive">
-          <table class="table">
-            <tr>
-              <th>
-                #
-              </th>
-              <th>
-                Date
-              </th>
-              <th>
-                Status
-              </th>
-              <th>
-                Customer
-              </th>
-              <th>
-                Purchased
-              </th>
-              <th>
-                Price
-              </th>
-              <th>
-                Review
-              </th>
-              <th>
-                Actions
-              </th>
-            </tr>
-            <tbody>
-              <tr *ngFor="let Items of allOrders| filter:searchText | paginate: config ;index as i">
 
-                <td id="firstTd">
-                  {{i+1}}
-                </td>
 
-                <td style="min-width: 130px !important;">
-                  {{Items?.createdAt | date: 'd MMM h:mm a'}}
-                </td>
-
-                <td id="OrderStatus">
-                  <span class="payment_pending" *ngIf="Items?.status == 'Payment Pending'">
-                    {{Items?.status}}
-                  </span>
-                  <span class="not_applicable" *ngIf="Items?.status == 'Not Applicable'">
-                    {{Items?.status}}
-                  </span>
-                  <span class="delivered" *ngIf="Items?.status == 'Received'">
-                    {{Items?.status}}
-                  </span>
-                  <span class="payment_pending" *ngIf="Items?.status == 'Processing'">
-                    {{Items?.status}}
-                  </span>
-                  <span class="shipped" *ngIf="Items?.status == 'Shipped'">
-                    {{Items?.status}}
-                  </span>
-                  <span class="delivered" *ngIf="Items?.status == 'Delivered'">
-                    {{Items?.status}}
-                  </span>
-                  <span class="will_not_deliver" *ngIf="Items?.status == 'Will Not Deliver'">
-                    {{Items?.status}}
-                  </span>
-                  <span class="returned" *ngIf="Items?.status == 'Returned'">
-                    {{Items?.status}}
-                  </span>
-                  <span class="ready_for_pickup" *ngIf="Items?.status == 'Ready For Pickup'">
-                    {{Items?.status}}
-                  </span>
-                </td>
-
-                <td id="OrderCustomer" style="min-width: 180px;">
-                  <div *ngIf="Items.user">
-                    <span class="pl-2" id="customerName"
-                      *ngIf="Items?.user?.name?.length > 20">{{Items?.user?.name.substr(0,20)}} ..
-                    </span>
-                    <span class="pl-2" id="customerName"
-                      *ngIf="Items?.user?.name?.length < 20">{{Items?.user?.name}}</span>
-                  </div>
-                </td>
-                <td>
-                  {{Items?.orderId}}
-                </td>
-
-                <td>
-                  ${{Items?.totalAmount}}
-                </td>
-                <td>
-                  <ngb-rating style="color: #ff9425;" *ngIf="Items[2] != null" [max]="5" [(rate)]="Items[2].stars"
-                    [readonly]="true">
-                  </ngb-rating>
-                </td>
-                <td>
-                  <i class="fa fa-history pr-2" aria-hidden="true" (click)="open(historyProducts)" placement="top"
-                    ngbTooltip="View history" (click)="orderActivity(Items._id)"></i>
-                  <i class="fa fa-eye" aria-hidden="true" (click)="open(defaultModal)" placement="top"
-                    ngbTooltip="View order" (click)="getProductsbyOrderId(Items._id,Items.status)"></i>
-                </td>
-              </tr>
-
-            </tbody>
-          </table>
+      <!-- Within card -->
+      <div class="card">
+        <div class="row" *ngIf="allOrders?.length <= 0">
+          <div class="col-md-12 text-center">
+            <h6 class="card-header">
+              No Data Available
+            </h6>
+          </div>
         </div>
+        <h6 class="card-header" *ngIf="allOrders?.length >= 1">
+          All
+        </h6>
+        <div class="card-ngx-datatable table-responsive" *ngIf="allOrders?.length >= 1">
+          <div class="table-responsive">
+            <table class="table">
+              <tr>
+                <th>
+                  #
+                </th>
+                <th>
+                  Date
+                </th>
+                <th>
+                  Status
+                </th>
+                <th>
+                  Customer
+                </th>
+                <th>
+                  Purchased
+                </th>
+                <th>
+                  Price
+                </th>
+                <th>
+                  Review
+                </th>
+                <th>
+                  Actions
+                </th>
+              </tr>
+              <tbody>
+                <tr *ngFor="let Items of allOrders| filter:searchText | paginate: config ;index as i">
 
-        <div class="col-md-12 text-right my-3">
-          <pagination-controls (pageChange)="pageChanged($event)"></pagination-controls>
+                  <td id="firstTd">
+                    {{i+1}}
+                  </td>
+
+                  <td style="min-width: 130px !important;">
+                    {{Items?.createdAt | date: 'd MMM h:mm a'}}
+                  </td>
+
+                  <td id="OrderStatus">
+                    <span class="payment_pending" *ngIf="Items?.status == 'Payment Pending'">
+                      {{Items?.status}}
+                    </span>
+                    <span class="not_applicable" *ngIf="Items?.status == 'Not Applicable'">
+                      {{Items?.status}}
+                    </span>
+                    <span class="delivered" *ngIf="Items?.status == 'Received'">
+                      {{Items?.status}}
+                    </span>
+                    <span class="payment_pending" *ngIf="Items?.status == 'Processing'">
+                      {{Items?.status}}
+                    </span>
+                    <span class="shipped" *ngIf="Items?.status == 'Shipped'">
+                      {{Items?.status}}
+                    </span>
+                    <span class="delivered" *ngIf="Items?.status == 'Delivered'">
+                      {{Items?.status}}
+                    </span>
+                    <span class="will_not_deliver" *ngIf="Items?.status == 'Will Not Deliver'">
+                      {{Items?.status}}
+                    </span>
+                    <span class="returned" *ngIf="Items?.status == 'Returned'">
+                      {{Items?.status}}
+                    </span>
+                    <span class="ready_for_pickup" *ngIf="Items?.status == 'Ready For Pickup'">
+                      {{Items?.status}}
+                    </span>
+                  </td>
+
+                  <td id="OrderCustomer" style="min-width: 180px;">
+                    <div *ngIf="Items.user">
+                      <span class="pl-2" id="customerName"
+                        *ngIf="Items?.user?.name?.length > 20">{{Items?.user?.name.substr(0,20)}} ..
+                      </span>
+                      <span class="pl-2" id="customerName"
+                        *ngIf="Items?.user?.name?.length < 20">{{Items?.user?.name}}</span>
+                    </div>
+                  </td>
+                  <td>
+                    {{Items?.orderId}}
+                  </td>
+
+                  <td>
+                    ${{Items?.totalAmount}}
+                  </td>
+                  <td>
+                    <ngb-rating style="color: #ff9425;" *ngIf="Items[2] != null" [max]="5" [(rate)]="Items[2].stars"
+                      [readonly]="true">
+                    </ngb-rating>
+                  </td>
+                  <td>
+                    <i class="fa fa-history pr-2" aria-hidden="true" (click)="open(historyProducts)" placement="top"
+                      ngbTooltip="View history" (click)="orderActivity(Items)"></i>
+                    <i class="fa fa-eye" aria-hidden="true" (click)="open(defaultModal)" placement="top"
+                      ngbTooltip="View order" (click)="getProductsbyOrderId(Items)"></i>
+                  </td>
+                </tr>
+
+              </tbody>
+            </table>
+          </div>
+
+          <div class="col-md-12 text-right my-3">
+            <pagination-controls (pageChange)="pageChanged($event)"></pagination-controls>
+          </div>
         </div>
       </div>
     </div>
@@ -230,9 +232,6 @@
   </div>
 </ng-template>
 
-
-
-
 <ng-template #historyProducts let-c="close" let-d="dismiss">
   <div class="modal-header">
     <h5 class="modal-title">
@@ -263,11 +262,8 @@
               {{Items?.order?.createdAt | date: 'EEEE, MMMM , y a' }}
             </div>
           </td>
-          <td *ngIf="Items?.order?.customer && Items?.order?.shop">
-            <p>{{Items?.order?.customer?.name}}</p>
-          </td>
-          <td *ngIf="!Items?.order?.customer && Items?.order?.shop">
-            <p>{{Items?.order?.shop?.name}}</p>
+          <td >
+            <p>{{Items?.order?.user?.name}}</p>
           </td>
           <td>{{Items?.order?.totalAmount}}</td>
         </tr>

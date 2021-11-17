@@ -357,6 +357,7 @@ export class ActionProductComponent implements OnInit {
     var file = event.target.files[0];
     var inc = 0;
     this.uploadSrv.saveimage(file).subscribe((data: any) => {
+      console.log(data);
       var incid = inc++;
       this.multiImages.push({ id: incid, image: data });
     });
